@@ -11,3 +11,33 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#include "paddle/fluid/prim/api/manual/utils/utils.h"
+#include "paddle/fluid/eager/api/utils/global_utils.h"
+#include "paddle/phi/api/include/tensor.h"
+#include "paddle/fluid/eager/api/generated/eager_generated/forwards/dygraph_functions.h"
+
+namespace paddle {
+namespace prim {
+
+template<typename T>
+Tensor empty(const IntArray& shape,
+             DataType dtype = DataType::FLOAT32,
+             const Place& place = Place()){
+
+    return empty_ad_func(shape, dtype, place);
+}
+
+template<typename T>
+Tensor empty_like(const Tensor& x,
+                  DataType dtype = DataType::FLOAT32,
+                  const Place& place = Place()){
+                    
+    return empty_like_ad_func(x, place);
+}
+
+template decltype(empty<Tensor>) empty;
+template decltype(empty_like<Tensor>) empty_like;
+
+}  // namespace prim
+}  // namespace paddle

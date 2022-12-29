@@ -15,6 +15,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "paddle/fluid/prim/type_def.h"
 #include "paddle/fluid/framework/op_proto_maker.h"
 #include "paddle/phi/common/data_type.h"
 #include "paddle/phi/common/int_array.h"
@@ -23,14 +24,14 @@ namespace paddle {
 namespace prim {
 
 template <typename T>
-paddle::experimental::Tensor empty(const paddle::experimental::IntArray& shape,
-                                   paddle::experimental::DataType dype,
-                                   const paddle::Place& place);
+Tensor empty(const IntArray& shape,
+             DataType dtype = DataType::FLOAT32,
+             const Place& place = Place());
 
 template <typename T>
-paddle::experimental::Tensor empty_like(const paddle::experimental::Tensor& x,
-                                        paddle::experimental::DataType dtype,
-                                        const paddle::Place& place);
+Tensor empty_like(const Tensor& x,
+                  DataType dtype = DataType::FLOAT32,
+                  const Place& place = Place());
 
 }  // namespace prim
 }  // namespace paddle

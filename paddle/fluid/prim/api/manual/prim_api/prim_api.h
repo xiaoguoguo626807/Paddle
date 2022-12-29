@@ -13,18 +13,18 @@
 // limitations under the License.
 
 #pragma once
-#include "paddle/phi/common/scalar.h"
+#include "paddle/fluid/prim/api/type_def.h"
+#include "paddle/phi/common/api/scalar.h"
 #include "paddle/utils/optional.h"
 namespace paddle {
 namespace prim {
-using Tensor = paddle::experimental::Tensor;
 
 template <typename T>
-Tensor pow(const Tensor& x, const paddle::experimental::Scalar& y);
+Tensor pow(const Tensor& x, const Scalar& y);
 
 template <typename T>
-Tensor scale(const Tensor& X,
-             const paddle::experimental::Scalar& scale,
+Tensor scale(const Tensor& x,
+             const Scalar& scale,
              float bias,
              bool bias_after_scale);
 

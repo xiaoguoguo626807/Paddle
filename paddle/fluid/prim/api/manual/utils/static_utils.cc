@@ -25,11 +25,11 @@
 #include "paddle/phi/core/utils/data_type.h"
 namespace paddle {
 namespace prim {
-using Tensor = paddle::experimental::Tensor;
+
 template <>
-Tensor empty<DescTensor>(const paddle::experimental::IntArray& shape,
-                         paddle::experimental::DataType dtype,
-                         const paddle::Place& place) {
+Tensor empty<DescTensor>(const IntArray& shape,
+                         DataType dtype,
+                         const Place& place) {
   framework::VarDesc* new_var =
       StaticCompositeContext::Instance().GetBlock()->Var(
           std::move(StaticCompositeContext::Instance().GenerateUniqueName()));
@@ -41,10 +41,10 @@ Tensor empty<DescTensor>(const paddle::experimental::IntArray& shape,
 
 template <>
 Tensor empty_like<DescTensor>(const Tensor& x,
-                              paddle::experimental::DataType dtype,
-                              const paddle::Place& place) {
+                              DataType dtype,
+                              const Place& place) {
   return empty<prim::DescTensor>(
-      paddle::experimental::IntArray(x.shape()), x.dtype(), paddle::Place());
+      IntArray(x.shape()), x.dtype(), Place());
 }
 
 }  // namespace prim

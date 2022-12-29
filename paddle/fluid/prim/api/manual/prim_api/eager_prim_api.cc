@@ -13,12 +13,37 @@
 // limitations under the License.
 
 #include "paddle/fluid/prim/api/manual/prim_api/prim_api.h"
+#include "paddle/fluid/prim/api/manual/utils/utils.h"
+#include "paddle/fluid/eager/api/generated/eager_generated/forwards/dygraph_functions.h"
+namespace paddle{
+namespace prim {
 
-namespace egr {
-template void Pow(const paddle::experimental::Tensor& X,
-                  const paddle::optional<T>& FactorTensor,
-                  float factor,
-                  T* Out) {
-  pow_ad_func()
+template <typename T>
+Tensor pow(const Tensor& x, const Scalar& y){
+
+    T Out = empty_like(X, X.dtype(), Place());
+    Out = pow_ad_func(X, y);
+    return Out;
 }
-}  // namespace egr
+
+template <typename T>
+Tensor scale(const Tensor& x,
+             const Scalar& scale,
+             float bias,
+             bool bias_after_scale){
+
+    return scale_ad_func(X, scale, bias, bias_after_scale);
+}
+
+template <typename T>
+Tensor multiply(const Tensor& x, const Tensor& y){
+
+    return multiply_ad_func(x, y);
+}
+
+template decltype(pow<Tensor>) pow;
+template decltype(scale<Tensor>) scale;
+template decltype(multiply<Tensor>) multiply;
+
+} // namespce prim
+} //namespace paddle
