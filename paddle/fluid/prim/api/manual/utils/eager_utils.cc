@@ -22,16 +22,16 @@ namespace prim {
 
 template<typename T>
 Tensor empty(const IntArray& shape,
-             DataType dtype = DataType::FLOAT32,
-             const Place& place = Place()){
+             DataType dtype,
+             const Place& place){
 
     return empty_ad_func(shape, dtype, place);
 }
 
 template<typename T>
 Tensor empty_like(const Tensor& x,
-                  DataType dtype = DataType::FLOAT32,
-                  const Place& place = Place()){
+                  DataType dtype,
+                  const Place& place){
                     
     return empty_like_ad_func(x, place);
 }

@@ -21,8 +21,8 @@ namespace prim {
 template <typename T>
 Tensor pow(const Tensor& x, const Scalar& y){
 
-    T Out = empty_like(X, X.dtype(), Place());
-    Out = pow_ad_func(X, y);
+    T Out = empty_like(x, x.dtype(), Place());
+    Out = pow_ad_func(x, y);
     return Out;
 }
 
@@ -32,7 +32,7 @@ Tensor scale(const Tensor& x,
              float bias,
              bool bias_after_scale){
 
-    return scale_ad_func(X, scale, bias, bias_after_scale);
+    return scale_ad_func(x, scale, bias, bias_after_scale);
 }
 
 template <typename T>

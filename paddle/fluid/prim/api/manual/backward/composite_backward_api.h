@@ -21,7 +21,7 @@ namespace prim {
 // This function should have as same signature as phi, which defined in
 // paddle/phi/api/backward/backward_api.h
 template <typename T>
-void tanh_comp_grad(const Tensor& out, const Tensor& grad_out, Tensor* grad_x) {
+void tanh_grad(const Tensor& out, const Tensor& grad_out, Tensor* grad_x) {
   auto tmp = pow<T>(out, 2.0);
   tmp = scale<T>(tmp, -1.0, 1.0, true);
   auto grad_x_tmp = multiply<T>(grad_out, tmp);

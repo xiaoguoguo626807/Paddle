@@ -25,13 +25,13 @@ namespace prim {
 
 template <typename T>
 Tensor empty(const IntArray& shape,
-             DataType dtype = DataType::FLOAT32,
-             const Place& place = Place());
+             DataType dtype,
+             const Place& place);
 
 template <typename T>
 Tensor empty_like(const Tensor& x,
-                  DataType dtype = DataType::FLOAT32,
-                  const Place& place = Place());
+                  DataType dtype,
+                  const Place& place);
 
 }  // namespace prim
 }  // namespace paddle
