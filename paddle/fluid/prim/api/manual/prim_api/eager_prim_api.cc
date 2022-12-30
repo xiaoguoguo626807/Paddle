@@ -23,9 +23,7 @@ namespace prim {
 template <>
 Tensor pow<Tensor>(const Tensor& x, const Scalar& y){
 
-    Tensor Out = empty_like<Tensor>(x, x.dtype(), Place());
-    Out = pow_ad_func(x, y);
-    return Out;
+    return ::pow_ad_func(x, y);
 }
 
 template <>
@@ -34,15 +32,15 @@ Tensor scale<Tensor>(const Tensor& x,
              float bias,
              bool bias_after_scale){
 
-    return scale_ad_func(x, scale, bias, bias_after_scale);
+    return ::scale_ad_func(x, scale, bias, bias_after_scale);
 }
 
 template <>
 Tensor multiply<Tensor>(const Tensor& x, const Tensor& y){
 
-    return multiply_ad_func(x, y);
+    return ::multiply_ad_func(x, y);
 }
 
 } // namespce prim
-} //namespace paddle
+} // namespace paddle
 
