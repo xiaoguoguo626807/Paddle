@@ -162,7 +162,6 @@ set(generated_static_files
     "${generated_argument_mapping_path}"
     "${generated_static_argument_mapping_path}"
     "${generated_sparse_argument_mapping_path}")
-
 foreach(generated_static_file ${generated_static_files})
   if(EXISTS "${generated_static_file}.tmp" AND EXISTS
                                                "${generated_static_file}")

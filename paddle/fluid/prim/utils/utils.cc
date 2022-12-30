@@ -12,30 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#pragma once
-#include <string>
-#include <vector>
-#include "paddle/fluid/framework/op_proto_maker.h"
-#include "paddle/phi/common/data_type.h"
-#include "paddle/phi/common/int_array.h"
-#include "paddle/phi/common/place.h"
+#include "paddle/fluid/prim/utils/utils.h"
+#include "paddle/phi/core/flags.h"
+
+PADDLE_DEFINE_EXPORTED_bool(prim_enabled, false, "retain grad for all tensor");
 namespace paddle {
 namespace prim {
-using Tensor = paddle::experimental::Tensor;
-using DataType = paddle::experimental::DataType;
-using IntArray = paddle::experimental::IntArray;
-using Place = paddle::Place;
-
-// We put some api like utils here
-template <typename T>
-Tensor empty(const IntArray& shape,
-             DataType dtype,
-             const Place& place);
-
-template <typename T>
-Tensor empty_like(const Tensor& x,
-                  DataType dtype,
-                  const Place& place);
-
+bool PrimCommonUtils::IsPrimEnabled() {
+  return FLAGS_prim_enabled ? true : false;
+}
 }  // namespace prim
 }  // namespace paddle

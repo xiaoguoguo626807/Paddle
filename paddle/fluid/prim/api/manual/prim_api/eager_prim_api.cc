@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "paddle/fluid/eager/api/all.h"
+#include "paddle/fluid/eager/api/generated/eager_generated/forwards/dygraph_functions.h"
 #include "paddle/fluid/prim/api/manual/prim_api/prim_api.h"
 #include "paddle/fluid/prim/api/manual/utils/utils.h"
 #include "paddle/fluid/eager/api/generated/eager_generated/forwards/dygraph_functions.h"
@@ -43,3 +45,4 @@ Tensor multiply<Tensor>(const Tensor& x, const Tensor& y){
 
 } // namespce prim
 } //namespace paddle
+
