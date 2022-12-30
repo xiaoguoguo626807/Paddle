@@ -18,16 +18,16 @@
 namespace paddle{
 namespace prim {
 
-template <typename T>
-Tensor pow(const Tensor& x, const Scalar& y){
+template <>
+Tensor pow<Tensor>(const Tensor& x, const Scalar& y){
 
-    T Out = empty_like(x, x.dtype(), Place());
+    Tensor Out = empty_like<Tensor>(x, x.dtype(), Place());
     Out = pow_ad_func(x, y);
     return Out;
 }
 
-template <typename T>
-Tensor scale(const Tensor& x,
+template <>
+Tensor scale<Tensor>(const Tensor& x,
              const Scalar& scale,
              float bias,
              bool bias_after_scale){
@@ -35,15 +35,11 @@ Tensor scale(const Tensor& x,
     return scale_ad_func(x, scale, bias, bias_after_scale);
 }
 
-template <typename T>
-Tensor multiply(const Tensor& x, const Tensor& y){
+template <>
+Tensor multiply<Tensor>(const Tensor& x, const Tensor& y){
 
     return multiply_ad_func(x, y);
 }
-
-// template decltype(pow<Tensor>) pow;
-// template decltype(scale<Tensor>) scale;
-// template decltype(multiply<Tensor>) multiply;
 
 } // namespce prim
 } //namespace paddle

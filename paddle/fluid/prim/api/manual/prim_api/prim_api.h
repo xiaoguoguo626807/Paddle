@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #pragma once
-//#include "paddle/fluid/prim/api/type_def.h"
 #include "paddle/phi/common/scalar.h"
 #include "paddle/utils/optional.h"
 namespace paddle {
@@ -21,9 +20,6 @@ namespace prim {
 
 using Tensor = paddle::experimental::Tensor;
 using Scalar = paddle::experimental::Scalar;
-// using DataType = paddle::experimental::DataType;
-// using IntArray = paddle::experimental::IntArray;
-// using Place = paddle::Place;
 
 template <typename T>
 Tensor pow(const Tensor& x, const Scalar& y);
