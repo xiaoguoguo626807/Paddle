@@ -24,7 +24,12 @@ template<typename T>
 Tensor empty(const IntArray& shape,
              DataType dtype,
              const Place& place){
-
+    if(dtype == DataType::UNDEFINED){
+        dtype = DataType::FLOAT32;
+    }
+    // if(place == {}){
+    //     place == Place();
+    // }
     return empty_ad_func(shape, dtype, place);
 }
 
@@ -32,12 +37,18 @@ template<typename T>
 Tensor empty_like(const Tensor& x,
                   DataType dtype,
                   const Place& place){
-                    
-    return empty_like_ad_func(x, place);
+    if(dtype == DataType::UNDEFINED){
+        dtype = DataType::FLOAT32;
+    }
+    // if(place == ){
+    //     place == Place();
+    // }  
+    T out = empty_like_ad_func(x, dtype, place);             
+    return out;
 }
 
-template decltype(empty<Tensor>) empty;
-template decltype(empty_like<Tensor>) empty_like;
+// template decltype(empty<Tensor>) empty;
+// template decltype(empty_like<Tensor>) empty_like;
 
 }  // namespace prim
 }  // namespace paddle

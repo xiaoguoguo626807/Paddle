@@ -41,9 +41,9 @@ Tensor multiply(const Tensor& x, const Tensor& y){
     return multiply_ad_func(x, y);
 }
 
-template decltype(pow<Tensor>) pow;
-template decltype(scale<Tensor>) scale;
-template decltype(multiply<Tensor>) multiply;
+// template decltype(pow<Tensor>) pow;
+// template decltype(scale<Tensor>) scale;
+// template decltype(multiply<Tensor>) multiply;
 
 } // namespce prim
 } //namespace paddle

@@ -15,13 +15,18 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "paddle/fluid/prim/type_def.h"
+//#include "paddle/fluid/prim/api/type_def.h"
 #include "paddle/fluid/framework/op_proto_maker.h"
 #include "paddle/phi/common/data_type.h"
 #include "paddle/phi/common/int_array.h"
 #include "paddle/phi/common/place.h"
 namespace paddle {
 namespace prim {
+using Tensor = paddle::experimental::Tensor;
+//using Scalar = paddle::experimental::Scalar;
+using DataType = paddle::experimental::DataType;
+using IntArray = paddle::experimental::IntArray;
+using Place = paddle::Place;
 
 template <typename T>
 Tensor empty(const IntArray& shape,
