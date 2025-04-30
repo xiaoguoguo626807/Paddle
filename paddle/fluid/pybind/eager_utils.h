@@ -42,6 +42,7 @@ typedef SSIZE_T ssize_t;
 #include "paddle/phi/core/selected_rows.h"
 #include "paddle/pir/core/op_result.h"
 #include "paddle/utils/pybind.h"
+#include "paddle/fluid/pybind/exception.h"
 #include "pybind11/pybind11.h"
 #include "pybind11/stl.h"
 
@@ -488,5 +489,8 @@ void BindEagerUtils(PyObject* module);
 
 void EagerSetDeviceId();
 
+PyObject* eager__for_test_check_cuda_error(PyObject* self,
+                                           PyObject* args,
+                                           PyObject* kwargs);
 }  // namespace pybind
 }  // namespace paddle

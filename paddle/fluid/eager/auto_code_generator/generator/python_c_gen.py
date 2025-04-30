@@ -124,9 +124,12 @@ PyObject * eager_api_{}(PyObject *self, PyObject *args, PyObject *kwargs) {{
 
     // Set Device ID
 {}
+    std::cout << "run api: " << "{}" << std::endl;
+    eager__for_test_check_cuda_error(self, args, kwargs);
     // Call dygraph function
     {}
-
+    std::cout << "after run api: " << "{}" << std::endl;
+    eager__for_test_check_cuda_error(self, args, kwargs);
     PyEval_RestoreThread(tstate);
     tstate = nullptr;
 {}
@@ -523,7 +526,9 @@ class PythonCSingleFunctionGenerator(FunctionGeneratorBase):
             get_eager_tensor_str,
             parse_attributes_str,
             set_device_str,
+            forward_api_name,
             noamp_dygraph_function_str,
+            forward_api_name,
             return_str,
         )
         self.python_c_funcion_declare_str = (
@@ -580,7 +585,9 @@ class PythonCSingleFunctionGenerator(FunctionGeneratorBase):
                 get_eager_tensor_str,
                 parse_attributes_str,
                 set_device_str,
+                inplaced_forward_api_name,
                 inplace_noamp_dygraph_function_str,
+                inplaced_forward_api_name,
                 return_str,
             )
 

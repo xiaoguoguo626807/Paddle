@@ -20,6 +20,27 @@
 
 namespace egr {
 
+void CheckCudaError(){
+#ifdef PADDLE_WITH_CUDA
+  // 1. wait all kernel finish
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaDeviceSynchronize());
+
+  // 2. get error state
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaGetLastError());
+
+  // 3. check if cuda 700
+  size_t bytes = 256;
+  char* cuda_mem;
+  char* cpu_mem = new char[bytes + 1];
+
+  cudaMalloc(&cuda_mem, bytes + 1);
+  cudaMemset(cuda_mem, 0, bytes + 1);
+  cudaMemcpyAsync(cpu_mem, cuda_mem, bytes, cudaMemcpyDeviceToHost);
+
+  cudaFree(cuda_mem);
+  delete[] cpu_mem;
+#endif
+}
 std::unordered_map<GradNodeBase*, int> getInDegreeMap(
     const std::deque<GradNodeBase*>& init_queue) {
   // Calculate in_degree for each node
@@ -279,6 +300,8 @@ std::vector<paddle::Tensor> RunBackward(
     EnforceGradNodeHasInput(node);
 
     VLOG(7) << "Run Backward Kernel with GradTensorHolder.";
+    std::cout << "run grad api " << node->name() << std::endl;
+    CheckCudaError();
     // Run Pre Backward Node and get outputs
     paddle::small_vector<std::vector<paddle::Tensor>, kSlotSmallVectorSize>
         grad_output_tensors = (*node)(
