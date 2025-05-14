@@ -31,6 +31,27 @@
 #endif
 
 namespace phi {
+void eager__for_test_check_cuda_error() {
+#ifdef PADDLE_WITH_CUDA
+  // 1. wait all kernel finish
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaDeviceSynchronize());
+
+  // 2. get error state
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaGetLastError());
+
+  // 3. check if cuda 700
+  size_t bytes = 256;
+  char* cuda_mem;
+  char* cpu_mem = new char[bytes + 1];
+
+  cudaMalloc(&cuda_mem, bytes + 1);
+  cudaMemset(cuda_mem, 0, bytes + 1);
+  cudaMemcpyAsync(cpu_mem, cuda_mem, bytes, cudaMemcpyDeviceToHost);
+
+  cudaFree(cuda_mem);
+  delete[] cpu_mem;
+#endif
+}
 
 template <typename T, typename Context, typename Functor>
 inline void CompareRawKernelImpl(const Context& ctx,
@@ -38,11 +59,19 @@ inline void CompareRawKernelImpl(const Context& ctx,
                                  const DenseTensor& y,
                                  int axis,
                                  DenseTensor* out) {
+  std::cout << "run api: " << "CompareRawKernelImpl" << std::endl;
+  eager__for_test_check_cuda_error();
+  std::cout << "run api2: " << "CompareRawKernelImpl" << std::endl;
+
   ctx.template Alloc<bool>(out);
   out->set_type(phi::DataType::BOOL);
   std::vector<const DenseTensor*> ins{&x, &y};
   std::vector<DenseTensor*> outs{out};
   funcs::BroadcastKernel<bool>(ctx, ins, &outs, Functor(), axis);
+
+  std::cout << "after run api: " << "CompareRawKernelImpl" << std::endl;
+  eager__for_test_check_cuda_error();
+  std::cout << "after run api2: " << "CompareRawKernelImpl" << std::endl;
 }
 
 template <typename T, typename Context>

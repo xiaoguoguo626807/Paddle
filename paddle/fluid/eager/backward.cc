@@ -302,10 +302,14 @@ std::vector<paddle::Tensor> RunBackward(
     VLOG(7) << "Run Backward Kernel with GradTensorHolder.";
     std::cout << "run grad api " << node->name() << std::endl;
     CheckCudaError();
+    std::cout << "run grad api2 " << node->name() << std::endl;
     // Run Pre Backward Node and get outputs
     paddle::small_vector<std::vector<paddle::Tensor>, kSlotSmallVectorSize>
         grad_output_tensors = (*node)(
             node_input_buffer->Buffers(), create_graph, is_general_grad);
+    std::cout << "after run grad api " << node->name() << std::endl;
+    CheckCudaError();
+    std::cout << "after run grad api2 " << node->name() << std::endl;
 
     if (!inputs.empty() && is_general_grad) {
       GeneralGrad::Instance().SetResultForEnddingNodes(grad_output_tensors,

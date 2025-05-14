@@ -85,6 +85,26 @@ void GPUGather(const phi::GPUContext& ctx,
                const DenseTensor& src,
                const DenseTensor& index,
                DenseTensor* output) {
+  std::cout << "run api: " << "GPUGather" << std::endl;
+  // 1. wait all kernel finish
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaDeviceSynchronize());
+
+  // 2. get error state
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaGetLastError());
+
+  // 3. check if cuda 700
+  size_t bytes = 256;
+  char* cuda_mem;
+  char* cpu_mem = new char[bytes + 1];
+
+  cudaMalloc(&cuda_mem, bytes + 1);
+  cudaMemset(cuda_mem, 0, bytes + 1);
+  cudaMemcpyAsync(cpu_mem, cuda_mem, bytes, cudaMemcpyDeviceToHost);
+
+  cudaFree(cuda_mem);
+  delete[] cpu_mem;
+  std::cout << "run api2: " << "GPUGather" << std::endl;
+
   if (index.dims().size() == 2) {
     PADDLE_ENFORCE_EQ(
         index.dims()[1],
@@ -113,6 +133,25 @@ void GPUGather(const phi::GPUContext& ctx,
 
   GatherCUDAKernel<T, IndexT><<<grid, block, 0, ctx.stream()>>>(
       p_src, p_index, p_output, index_size, slice_size);
+  std::cout << "after run api: " << "GPUGather" << std::endl;
+  // 1. wait all kernel finish
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaDeviceSynchronize());
+
+  // 2. get error state
+  PADDLE_ENFORCE_GPU_SUCCESS(cudaGetLastError());
+
+  // 3. check if cuda 700
+  cuda_mem;
+  cpu_mem = new char[bytes + 1];
+
+  cudaMalloc(&cuda_mem, bytes + 1);
+  cudaMemset(cuda_mem, 0, bytes + 1);
+  cudaMemcpyAsync(cpu_mem, cuda_mem, bytes, cudaMemcpyDeviceToHost);
+
+  cudaFree(cuda_mem);
+  delete[] cpu_mem;
+  std::cout << "after run api2: " << "GPUGather" << std::endl;
+
 }
 
 template <typename T, typename IndexT = int>

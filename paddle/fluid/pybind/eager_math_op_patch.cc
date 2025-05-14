@@ -1348,7 +1348,15 @@ static PyObject* tensor__lt__method(TensorObject* self,
   VLOG(6) << "Calling less_than_ad_func in tensor__lt__method";
   {
     eager_gil_scoped_release guard;
+    std::cout << "run api: " << "less_than_ad_func" << std::endl;
+    eager__for_test_check_cuda_error();
+    std::cout << "run api2: " << "less_than_ad_func" << std::endl;
+
     ret = less_than_ad_func(self_tensor, other_tensor);
+
+    std::cout << "after run api: " << "less_than_ad_func" << std::endl;
+    eager__for_test_check_cuda_error();
+    std::cout << "after run api2: " << "less_than_ad_func" << std::endl;
   }
 
   return ToPyObject(ret);

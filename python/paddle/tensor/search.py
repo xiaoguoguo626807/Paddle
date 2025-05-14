@@ -359,7 +359,10 @@ def index_select(x, index, axis=0, name=None):
     """
 
     if in_dynamic_or_pir_mode():
-        return _C_ops.index_select(x, index, axis)
+        tmp = _C_ops.index_select(x, index, axis)
+        if 0 in tmp.shape:
+            raise ValueError("0 size")
+        return tmp
     else:
         helper = LayerHelper("index_select", **locals())
         check_variable_and_dtype(

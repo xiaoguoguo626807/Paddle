@@ -489,8 +489,6 @@ void BindEagerUtils(PyObject* module);
 
 void EagerSetDeviceId();
 
-PyObject* eager__for_test_check_cuda_error(PyObject* self,
-                                           PyObject* args,
-                                           PyObject* kwargs);
+void eager__for_test_check_cuda_error();
 }  // namespace pybind
 }  // namespace paddle
